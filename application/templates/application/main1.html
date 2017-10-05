@@ -18,11 +18,11 @@
 
 	<!-- css -->
 	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/bootstrap.min.css" %}" />
-	<link rel="stylesheet" type="text/css" href="/css/materialdesignicons.min.css" />
-	<link rel="stylesheet" type="text/css" href="/css/jquery.mCustomScrollbar.min.css" />
-	<link rel="stylesheet" type="text/css" href="/css/prettyPhoto.css" />
-	<link rel="stylesheet" type="text/css" href="/css/unslider.css" />
-	<link rel="stylesheet" type="text/css" href="/css/template.css" />
+	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/materialdesignicons.min.css"%}" />
+	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/jquery.mCustomScrollbar.min.css"%}" />
+	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/prettyPhoto.css"%}" />
+	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/unslider.css"%}" />
+	<link rel="stylesheet" type="text/css" href="{% static "application/css/new/template.css"%}" />
 
 </head>
 
@@ -510,7 +510,7 @@
 	<a href="#" class="nino-icon"><i class="mdi mdi-pinterest"></i></a>
 	<a href="#" class="nino-icon"><i class="mdi mdi-instagram"></i></a>
 	</div>
-	<img src={% static "application/images/newimages/our-team/img-2.jpg"%} alt="">
+	<img src="{% static "application/images/newimages/our-team/img-2.jpg"%}" alt="">
 	</div>
 	</div>
 	<div class="info">
@@ -527,7 +527,7 @@
 	<a href="#" class="nino-icon"><i class="mdi mdi-pinterest"></i></a>
 	<a href="#" class="nino-icon"><i class="mdi mdi-instagram"></i></a>
 	</div>
-	<img src="images/our-team/img-3.jpg" alt="">
+	<img src="{% static "application/images/new/our-team/img-3.jpg"%}" alt="">
 	</div>
 	</div>
 	<div class="info">
@@ -545,12 +545,12 @@
     <section id="nino-brand">
     	<div class="container">
     	<div class="verticalCenter fw" layout="row">
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-1.png" alt=""></a></div>
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-2.png" alt=""></a></div>
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-3.png" alt=""></a></div>
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-4.png" alt=""></a></div>
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-5.png" alt=""></a></div>
-    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="/images/brand/img-6.png" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="{% static "application/images/new/brand/img-1.png" %}" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="{% static "application/images/new/brand/img-2.png" %}" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="{% static "application/images/new/brand/img-3.png" %}" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="{% static "application/images/new/images/brand/img-4.png" %}" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src="{% static "application/images/new/brand/img-5.png"%}" alt=""></a></div>
+    	<div class="col-md-2 col-sm-4 col-xs-6"><a href="#"><img src={% static "application/images/new/images/brand/img-6.png" %}" alt=""></a></div>
     	</div>
     	</div>
     </section><!--/#nino-brand-->
@@ -571,7 +571,7 @@
 	<ul class="nino-portfolioItems">
 	<li class="item">
 	<a class="nino-prettyPhoto" rel="prettyPhoto[gallery1]" title="Development Mobile" href="/images/our-work/img-1.jpg">
-	<img src="/images/our-work/img-1.jpg" />
+	<img src="{% static "application/images/new/our-work/img-1.jpg"%}" />
 	<div class="overlay">
 	<div class="content">
 	<i class="mdi mdi-crown nino-icon"></i>
@@ -964,14 +964,14 @@
 
 	<!-- javascript -->
 	<script type="text/javascript" src="{% static "application/js/new/jquery.min.js" %}"></script>
-	<script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
-	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/jquery.hoverdir.js"></script>
-	<script type="text/javascript" src="js/modernizr.custom.97074.js"></script>
-	<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="js/unslider-min.js"></script>
-	<script type="text/javascript" src="js/template.js"></script>
+	<script type="text/javascript" src="{%static "application/js/new/isotope.pkgd.min.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/jquery.prettyPhoto.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/bootstrap.min.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/jquery.hoverdir.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/modernizr.custom.97074.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new//jquery.mCustomScrollbar.concat.min.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/unslider-min.js" %}"></script>
+	<script type="text/javascript" src="{%static "application/js/new/template.js" %}"></script>
 
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
