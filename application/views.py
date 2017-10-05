@@ -126,7 +126,7 @@ def createApplication(request):
         # #    'i': len(notificationList)
 
 	# })
-    return HttpResponse("""WIP""")
+        return HttpResponse("""WIP""")
 
     else:
         title = request.POST['title']
