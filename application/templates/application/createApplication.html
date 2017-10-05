@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <title>e - Router| New Application</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="{% static "application/js/createApplication.js" %}"></script>
+    <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+    <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static "application/css/dashboard.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "application/css/font-awesome.css" %}">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static "application/js/modal.js" %}"></script>
+    <script src="{% static "application/js/notify.js" %}"></script>
+</head>
+<body style="height: 100vh">
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Approval List</h4>
+            </div>
+            <div class="modal-body">
+                <div style="border: groove; min-height: 40px; padding: 0px">
+                    <ul id="list" style="margin: 0px; padding-left: 2px; padding-right: 2px; padding-top: 5px; list-style: none;"></ul>
+                </div>
+                {% if facultyList|length != 0 %}
+                    <h4><b>Faculties</b></h4>
+                    <div class="row">
+                        {% for faculty in facultyList %}
+                            <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{faculty.value.username}}">
+                                <img src="{{faculty.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px">
+                                <b style="color: brown">{{faculty.value.post}}</b><br>
+                                {{faculty.value.username}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if gymkhanaList|length != 0 %}
+                    <h4><b>Gymkhana Members</b></h4>
+                    <div class="row">
+                        {% for gymkhana in gymkhanaList %}
+                            <div class="col-md-3" style="text-align: center; min-height: 180px" onclick="addToList(this)" id="{{gymkhana.value.username}}">
+                                <img src="{{gymkhana.value.picUrl}}" class="img-circle" style="height: 100px; width: 88px;">
+                                <b style="color: brown">{{gymkhana.value.post}}</b><br>
+                                {{gymkhana.value.username}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="send()">Send Application</button>
+            </div>      
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+    <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+        <ul class="nav navbar-nav">
+                <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+            </ul>
+            <div class="navbar-header">
+                <span class="navbar-brand"><i>e</i>-Router</span>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="line-height: 2; padding-top: 2%;">
+                <form method="GET" action='/searchby'>
+                <input name='search' type='text' style="width: 60%; padding-left: 4%; border-radius:30px;" id="searchbox" placeholder="&#128269 Search">
+                </form>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle">
+                    {% if i is not 0 %}
+                     <span class="glyphicon glyphicon-bell"><span class="badge" style="background: red; top: -15px; left: -7px; position: relative;">{{i}}</span></span>
+                    {% else %}
+                     <span class="glyphicon glyphicon-bell"></span>
+                    {% endif %}
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for notification in notificationList %}
+                        {% if notification.value.type == 'create' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-envelope" style="color: orange;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% elif notification.value.type == 'comment' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-comment" style="color: green;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% elif notification.value.type == 'approve' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-ok-sign" style="color: green;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% elif notification.value.type == 'disapprove' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-remove-sign" style="color: red;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% elif notification.value.type == 'designation' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-education" style="color: black;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% elif notification.value.type == 'forward' %}
+                        <li>
+                        <a href="read/{{notification.id}}">
+                            <div>
+                            <i class="glyphicon glyphicon-circle-arrow-right" style="color: blue;"></i>&nbsp;{{notification.value.text}}
+                            <span class="pull-right text-muted small">{{notification.value.dateCreated}}</span>
+                            </div>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        <li class="dropdown-footer" align="center">
+                            <a href="/notifications" align="center">
+                            See all notifications
+                            <i class="glyphicon glyphicon-chevron-right" style="color: #FF5274;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="/profile"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li class="dropdown">
+                    <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/activitylog"><span class="glyphicon glyphicon-time"></span> Activity Log</a></li>
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="height: 100vh">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+                <li>
+                    <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                </li>
+                <li class="active">
+                    <a href="/createApplication"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-pencil"></i></span> New Application</a>
+                </li>
+                <li>
+                    <a href="/sentApplications"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-list-alt"></i></span>Sent Applications</a>
+                </li>
+                <li>
+                    <a href="/trash"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-trash"></i></span>Trash</a>
+                </li>
+                <li>
+                    <a href="/members"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Members</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="max-height: 90vh;">
+        <div style="margin-top: 40px; margin-left: 20%;">
+            <form style="" action="/createApplication" method="POST" id="formApp" class="formApp">
+            <input type="hidden" name="subject" id="subject">
+            <div class="row">
+                <div class="col-md-7">
+                    <textarea class="title" placeholder="Title..." name="title" style="resize: none; width: 104%; height: 96px" id="title"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <input type="date" name="dueDate" value="{{date}}" min="{{date}}" style="width: 150px; margin-bottom: 8px">
+                    <br>
+                    <select name="priority" class="priority" style="width: 150px" id="priority">
+                        <option value="" disabled selected style="display: none;">Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    <div style="margin-top: 5px">
+                    <select name="type" class="type" style="width: 150px" id="type">
+                        <option value="" disabled selected style="display: none;">General</option>
+                        <option value="LT Permission">LT Permission</option>
+                        <option value="Leave Application">Leave Application</option>
+                        <option value="Hostel Issues">Hostel Issues</option>
+                        <option value="SAC Occupancy">SAC Occupancy</option>
+                    </select></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <textarea id="area1" name="textarea-398" cols="92" rows="15" class="subject wpcf7-form-control wpcf7-textarea" placeholder="Body"></textarea>
+                </div>
+            </div>
+            {% csrf_token %}
+            <br>
+            <button type="button" class="btn btn-info btn-lg" onclick="proceed()">Approval List</button>
+            </form>
+        </div>
+        </div>
+        </div>
+    <script>
+        $('#searchbox').focus(function() {
+            $('#searchbox').animate({width: "100%"});
+        });
+        $('#searchbox').blur(function() {
+            $('#searchbox').animate({width: "60%"});
+        });
+        $("#menu-toggle-2").click(function(e) {
+            $("#wrapper").toggleClass("toggled-2");
+            $('#menu ul').hide();
+        });
+        $(document).ready(function() {
+            $("#datepicker").datepicker();
+        });
+    </script>
+    <script type="text/javascript">
+      bkLib.onDomLoaded(function() {
+            new nicEditor().panelInstance('area1');
+            nicEditors.findEditor( "area1" ).setContent( '' );
+      });
+    </script>
+        <script type="text/javascript">
+            function proceed() {
+                var nicE = new nicEditors.findEditor('area1');
+                document.getElementById("subject").value = nicE.getContent();
+                var len = nicE.getContent().length;
+                if (document.getElementById("title").value.length == 0)
+                    $(".title").notify("Title is required", {position: "top center"});
+                else if(len == 0)
+                    $(".subject").notify("Body is required", {position: "top center"});
+                else if(document.getElementById('priority').selectedIndex == 0)
+                    $(".priority").notify("Priority is required", {position: "top left"});
+                else{
+                    $('#myModal').modal();
+                }
+            }
+            function addToList(element){
+                username=element.id;
+                element.style.border = "solid orange";
+                element.style.background = "#EEEEDD";
+                var li = document.createElement("li");;
+                var ul = document.getElementById("list");
+                var children = ul.children;
+                for (var i = 0; i < children.length; i++) {
+                    var existing = children[i].id;
+                    if (existing == username){
+                        ul.removeChild(children[i]);
+                        element.style.border = "none";
+                        element.style.background = "none";
+                        return;
+                    }
+                }
+                var but = document.createElement("i");
+                but.innerHTML = '<b> \u02DF </b>';
+                but.setAttribute("style", "margin-right: 5px; cursor: pointer");
+                but.setAttribute("onclick", "removeFromList(this.parentNode)");
+                but.setAttribute("onmouseover", "this.style.color='red'");
+                but.setAttribute("onmouseout", "this.style.color='inherit'");
+                li.appendChild(document.createTextNode(username));
+                li.appendChild(but);
+                li.setAttribute("style", "display: inline; padding: 5px; background: #098765; border-radius: 10px; margin: 1px");
+                li.setAttribute("id", username);
+                ul.appendChild(li);
+            }
+            function removeFromList(element){
+                var ul = document.getElementById("list");
+                ul.removeChild(element);
+            }
+            function send(){
+                var ul = document.getElementById("list");
+                form = document.getElementById("formApp");
+                var children = ul.children;
+                if (children.length == 0){
+                    $.notify("No person selected!!!", {position: "top center"});
+                    return;
+                }
+                for (var i = 0; i < children.length; i++) {
+                    var chk = document.createElement("input");
+                    chk.setAttribute("style", 'display: None');
+                    chk.setAttribute("type", "checkbox");
+                    chk.setAttribute("name", "facultyList");
+                    chk.setAttribute("value", children[i].id);
+                    chk.checked = true;
+                    form.appendChild(chk);
+                }
+                var nicE = new nicEditors.findEditor('area1');
+                document.getElementById("subject").value = nicE.getContent();
+                form.submit();
+            }
+        </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+  <title>e - Router| Edit Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+  <link href="{% static "application/css/sidebar.css" %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="http://snipplicious.com/css/font-awesome-4.1.0.min.css">
+  <script src="http://snipplicious.com/js/jquery.js"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="{% static "application/js/bootstrap.min.js" %}"></script>
+</head>
+<body style="height: 100vh; background-color: #F5F5F5">
+    <nav class="navbar navbar-inverse" style="vertical-align: middle; padding-right: 4px; margin: 0px 0px 0px 0px">
+        <div class="container-fluid" style="padding: 0px 18px 0px 0px;">
+            <ul class="nav navbar-nav">
+                <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+            </ul>
+            <div class="navbar-header">
+                <span class="navbar-brand"><i>e</i> Router</span>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/adminprofile"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li class="dropdown">
+                    <a style="margin-top: -7px; margin-bottom: -10px" class="dropdown-toggle" type="button" data-toggle="dropdown"><img src='{{user.picUrl}}' style="height: 35px" class="img img-circle"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" style="height: 100vh">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+ 
+                <li>
+                    <a href="/admindashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
+                </li>
+                <li>
+                    <a href="/student"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span> Student Users</a>
+                </li>
+                <li>
+                    <a href="/gymkhana"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Gymkhana Users</a>
+                </li>
+                <li>
+                    <a href="/faculty"> <span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-user"></i></span>Faculty Users</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div class="container" style="padding-top:15px;">
+  <div class="row">
+    <!-- left column -->
+    <!-- edit form column -->
+    <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+      <h3 style="color: #FF5274;"><b>Personal Information</b></h3>
+      <br>
+      <form class="form-horizontal" id="formId" role="form" method="POST">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Full Name:</label>
+          <div class="col-lg-7">
+            <input class="form-control" name="fullname" required="required" disabled="" value="{{user.fullName}}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Username:</label>
+          <div class="col-md-7">
+            <input class="form-control" name="username" required="required" disabled="" value="{{user.username}}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">College:</label>
+          <div class="col-lg-7">
+            <input id="clgName" class="form-control" name="collegename" required="required" value="{{user.collegeName}}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email:</label>
+          <div class="col-lg-7">
+            <input class="form-control" name="email" required="required" disabled="" value="{{user.email}}" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Date of Birth:</label>
+          <div class="col-lg-7">
+            <span class="wpcf7-form-control-wrap email-680">
+                    <input id="DOB" type="text" id="datepicker" name="dob" required="required" value="{{user.dob}}" size="45" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email" aria-required="true" placeholder="">
+            </span>
+        </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Gender:</label>
+          <div class="col-lg-7">
+            <div class="ui-select">
+              <select id="gender" name="gender" required="required" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--<div class="form-group">
+          <label class="col-lg-3 control-label">Time Zone:</label>
+          <div class="col-lg-8">
+            <div class="ui-select">
+              <select id="user_time_zone" class="form-control">
+                <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                <option value="Alaska">(GMT-09:00) Alaska</option>
+                <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+                <option value="Arizona">(GMT-07:00) Arizona</option>
+                <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+              </select>
+            </div>
+          </div>
+        </div>-->
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Password:</label>
+          <div class="col-md-7">
+            <input class="form-control" name="password" required="required" value="{{user.password}}" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Confirm password:</label>
+          <div class="col-md-7">
+            <input class="form-control" name="cnf_password" required="required" value="{{user.password}}" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Motto of life:</label>
+          <div class="col-md-7">
+            <input class="form-control" name="motto" required="required" value="{{user.motto}}" type="text">
+          </div>
+        </div>
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-7">
+            <input class="btn btn-primary" value="Save Changes" onclick="saveChanges()">
+            <span></span>
+            <input class="btn btn-default" value="Cancel" type="reset">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <script>
+        $("#menu-toggle-2").click(function(e) {
+            $("#wrapper").toggleClass("toggled-2");
+            $('#menu ul').hide();
+        });
+        function resume() {
+            window.location = "/dashboard";
+        }
+        function selectAll(source) {
+            var checkboxes = document.getElementsByName('applicationList');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+        function saveChanges(){
+          document.getElementById("formId").submit();
+        }
+    </script>
+</body>
+</html>

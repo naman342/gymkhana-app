@@ -1,0 +1,30 @@
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" href="{% static "application/css/bootstrap.min.css" %}">
+</head>
+<body topmargin="50px">
+<font color="brown" size="7">
+<center>
+<b>{{application.title}}</b>
+</center>
+</font>
+<p align="right">By {{application.from}}<br>{{application.dateCreated}}</p>
+<br>
+<br>
+<font size='4'>
+{{application.subject|safe|escape}}
+</font>
+<br><br>
+<font size="5">
+<b>Approved By:</b>
+<br>
+</font>
+<font size= "3">
+{% for faculty in facultyList %}
+    {{faculty.fullName}} ({{faculty.post}})
+    <br>
+{% endfor %}
+</font>
+</body>
+</html>
