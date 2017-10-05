@@ -724,7 +724,7 @@
 	<div class="col-md-6">
 	<div layout="row" class="item">
 	<div class="nino-avatar fsr">
-	<img class="img-circle" src="{% static "application/images/new/happy-client/img-2.jpg" %}" alt="">
+	<img class="img-circle" src="images/happy-client/img-2.jpg" alt="">
 	</div>
 	<div class="info">
 	<h4 class="name">Nick Karvounis</h4>
@@ -740,7 +740,7 @@
 	<div class="col-md-6">
 	<div layout="row" class="item">
 	<div class="nino-avatar fsr">
-	<img class="img-circle" src="{% static "application/images/new/happy-client/img-3.jpg" %}" alt="">
+	<img class="img-circle" src="images/happy-client/img-3.jpg" alt="">
 	</div>
 	<div class="info">
 	<h4 class="name">Jaelynn Castillo</h4>
@@ -754,7 +754,7 @@
 	<div class="col-md-6">
 	<div layout="row" class="item">
 	<div class="nino-avatar fsr">
-	<img class="img-circle" src="{% static "application/images/new/happy-client/img-4.jpg" %}" alt="">
+	<img class="img-circle" src="images/happy-client/img-4.jpg" alt="">
 	</div>
 	<div class="info">
 	<h4 class="name">Mike Petrucci</h4>
