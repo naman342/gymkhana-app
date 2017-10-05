@@ -292,28 +292,23 @@
 	<div id="container_demo" >
 	<div id="wrapper">
 	<div id="login" class="animate form noti">
-	<form action="/users/login" method="post">
-	<input type="email" name="email" placeholder="E-mail" required="">
-	<input type="password" name="password" placeholder="Password" required="">
-	<br>
-	<div>
-	<select class="form-control" placeholder="LogIn as" name="user_level">
-	<option value="Lawyer">Faculty</option>
-	<option value="Client">Student</option>
-	<option value="Client">Gsec</option>
-	</select>
-	</div>
-	<div class="tp">
+	<form action="/login" method="get">
+		                            {% csrf_token %}
+
 	<input type="submit" value="Sign In">
-	</div>
 	</form>
+	
 	</div>
 	</div>
 	</div>
 	</section>
 	-----
 	</div>
-	<div class="col-sm-6">SiGnup</div>
+	<div class="col-sm-6"><form action="/signup" method="get">
+		                            {% csrf_token %}
+
+	<input type="submit" value="Sign Up">
+	</form></div>
 
 	<!-- Modal2 -->
 <div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
@@ -498,7 +493,7 @@
 	<a href="#" class="nino-icon"><i class="mdi mdi-pinterest"></i></a>
 	<a href="#" class="nino-icon"><i class="mdi mdi-instagram"></i></a>
 	</div>
-	<img src="images/our-team/img-1.jpg" alt="">
+	<img src="{% static "application/images/new/our-team/img-1.jpg"%} alt="">
 	</div>
 	</div>
 	<div class="info">
@@ -515,7 +510,7 @@
 	<a href="#" class="nino-icon"><i class="mdi mdi-pinterest"></i></a>
 	<a href="#" class="nino-icon"><i class="mdi mdi-instagram"></i></a>
 	</div>
-	<img src="images/our-team/img-2.jpg" alt="">
+	<img src={% static "application/images/newimages/our-team/img-2.jpg"%} alt="">
 	</div>
 	</div>
 	<div class="info">

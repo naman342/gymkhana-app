@@ -117,14 +117,17 @@ def createApplication(request):
         gymkhanaList = desigView['Gymkhana'][:]
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         #notificationList = getNotification(request.user.username)
-        return render(request, 'application/createApplication.html', {
-            'user': user[0]['value'],
-            'facultyList': facultyList,
-            'gymkhanaList': gymkhanaList,
-            'date': datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d'),
-        #    'notificationList': notificationList[:6],
-        #    'i': len(notificationList)
-	})
+        # return render(request, 'application/createApplication.html', {
+        #     'user': user[0]['value'],
+        #     'facultyList': facultyList,
+        #     'gymkhanaList': gymkhanaList,
+        #     'date': datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d'),
+        # #    'notificationList': notificationList[:6],
+        # #    'i': len(notificationList)
+
+	# })
+    return HttpResponse("""WIP""")
+
     else:
         title = request.POST['title']
         appType = request.POST.get('type', 'General')
@@ -158,7 +161,9 @@ def createApplication(request):
             text = request.user.username + " sent a new application " + newApplication['title']
        #     addNotification(text, faculty,
         #                    "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "create")
-        return redirect('/dashboard')
+        # return redirect('/dashboard')
+        return HttpResponse("""WIP""")
+
 
 
 def mainpage(request):
