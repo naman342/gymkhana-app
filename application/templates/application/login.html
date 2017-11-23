@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>e - Router| Login</title>
     {% load static %}
-    <link rel="shortcut icon" href="../favicon.ico"> 
+    <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" type="text/css" href="{% static "application/css/demo.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "application/css/style.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "application/css/animate-custom.css" %}" />
@@ -21,7 +21,7 @@
     font-style: normal;
 }
 /* CSS reset */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
     margin:0;
     padding:0;
 }
@@ -34,7 +34,7 @@ table {
     border-collapse:collapse;
     border-spacing:0;
 }
-fieldset,img { 
+fieldset,img {
     border:0;
 }
 address,caption,cite,code,dfn,th,var {
@@ -62,13 +62,13 @@ footer, header, hgroup, menu, nav, section {
 }
 /* General Demo Style */
 body{
-    background: url(static/application/images/hero.jpg) ;
+    /*background: url(static/application/images/download.png) ;*/
     font-weight: 400;
     font-size: 15px;
-    color: #FF5274;
+    color: #FFFF74;
 }
 a{
-    color: #333;
+    color: #A04295;
     text-decoration: none;
 }
 .container{
@@ -81,21 +81,22 @@ a{
     clear: both;
 }
 .container > header{
-    padding: 20px 30px 10px 30px;
-    margin: 0px 20px 10px 20px;
+    padding: 30px 40px 20px 30px;
+    margin: 10px 20px 10px 20px;
     position: relative;
     display: block;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
     text-align: center;
+    /*edrft*/
 }
 .container > header h1{
-    font-size: 35px;
+    font-size: 100px;
     line-height: 35px;
     position: relative;
     font-weight: 400;
-    color: #FF5274;
+    color: #FFFFFF;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-    padding: 0px 0px 5px 0px;
+    padding: 0px 0px 15px 0px;
 }
 .container > header h1 span{
     color: #7cbcd6;
@@ -111,7 +112,7 @@ a{
 .codrops-top{
     line-height: 24px;
     font-size: 11px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 0, 0, 0.8);
     text-transform: uppercase;
     z-index: 9999;
     position: relative;
@@ -120,10 +121,10 @@ a{
 .codrops-top a{
     padding: 0px 10px;
     letter-spacing: 1px;
-    color: #333;
+    color: #111;
     text-shadow: 0px 1px 1px #fff;
     display: block;
-    float: left;
+    float: right;
 }
 .codrops-top a:hover{
     background: #fff;
@@ -179,32 +180,32 @@ img.resize{
 <body>
     <div class="container">
         <header>
-            <h1><i>e</i> - Router</h1>
+            <h1>e - Router</h1>
         </header>
-        
-        <section>               
+
+        <section>
             <div id="container_demo" >
                 <div id="wrapper">
                     <div id="login" class="animate form noti">
                         <form autocomplete="on" method="POST">
-                            <h1>Log in</h1> 
-                            <p> 
+                            <h1>Log in</h1>
+                            <p>
                                 <label for="username" class="uname" data-icon="u" > Your email or username </label>
                                 <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
                             </p>
-                            <p> 
+                            <p>
                                 <label for="password" class="youpasswd" data-icon="p"> Your password </label>
                             {% csrf_token %}
-                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" />
                             </p>
                             <div id='msg'>{{msg}}</div>
-                            <p class="login button"> 
+                            <p class="login button">
                                 <input type="submit" class="btn btn-fill btn-large btn-margin-right" value="Login" />
-                            </p>                           
+                            </p>
                         </form>
-                    </div>                  
+                    </div>
                 </div>
-            </div>  
+            </div>
         </section>
     </div>
 </body>

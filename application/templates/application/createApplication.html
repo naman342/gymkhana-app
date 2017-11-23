@@ -27,7 +27,7 @@
     <script src="{% static "application/js/modal.js" %}"></script>
     <script src="{% static "application/js/notify.js" %}"></script>
 </head>
-<body style="height: 100vh">
+<body style="height: 100vh; background-color:rgba(255,0,0,0.6)" >
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -66,7 +66,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="send()">Send Application</button>
-            </div>      
+            </div>
         </div>
     </div>
 </div>
@@ -76,7 +76,7 @@
                 <li style="cursor: pointer;"><a style="font-size:18px" data-toggle="collapse" id="menu-toggle-2"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
             </ul>
             <div class="navbar-header">
-                <span class="navbar-brand"><i>e</i>-Router</span>
+                <span class="navbar-brand">e-Router</span>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li style="line-height: 2; padding-top: 2%;">
@@ -172,7 +172,7 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper" style="height: 100vh">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
- 
+
                 <li>
                     <a href="/dashboard"><span class="fa-stack fa-lg pull-left"><i class="glyphicon glyphicon-home"></i></span> Dashboard</a>
                 </li>

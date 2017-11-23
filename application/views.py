@@ -34,9 +34,8 @@ def home(request):
     notificationList = getNotification(request.user.username)
     return render(request, 'application/dashboard.html', {'user': user[0]['value'],
                                                           'applicationList': applicationList,
-                                                          #'notificationList': notificationList[:6],
-                                                          #'i': len(notificationList)
-							})
+                                                          'notificationList': notificationList[:6],
+                                                          'i': len(notificationList)})
 
 
 @csrf_protect
@@ -116,18 +115,14 @@ def createApplication(request):
         facultyList = desigView['Faculty'][:]
         gymkhanaList = desigView['Gymkhana'][:]
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        #notificationList = getNotification(request.user.username)
+        notificationList = getNotification(request.user.username)
         return render(request, 'application/createApplication.html', {
             'user': user[0]['value'],
             'facultyList': facultyList,
             'gymkhanaList': gymkhanaList,
             'date': datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d'),
-            # 'notificationList': notificationList[:6],
-           # 'i': len(notificationList)
-
-	})
-        return HttpResponse("""WIP""")
-
+            'notificationList': notificationList[:6],
+            'i': len(notificationList)})
     else:
         title = request.POST['title']
         appType = request.POST.get('type', 'General')
@@ -159,11 +154,9 @@ def createApplication(request):
                 appId = app['id']
         for faculty in facultyList:
             text = request.user.username + " sent a new application " + newApplication['title']
-       #     addNotification(text, faculty,
-        #                    "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "create")
+            addNotification(text, faculty,
+                            "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "create")
         return redirect('/dashboard')
-        # return HttpResponse("""WIP""")
-
 
 
 def mainpage(request):
@@ -180,7 +173,19 @@ def logoutUser(request):
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def activitylog(request):
-    return HttpResponse("""WIP""")
+    DBACTIVITYLOG = client['activitylog']
+    activities = DBACTIVITYLOG.get_view_result('_design/fetch', 'byDate')
+    activityList = []
+    user = request.user.username
+    for activity in activities:
+        if activity['value']['username'] == user:
+            activityList.append(activity)
+    activityList.reverse()
+    notificationList = getNotification(request.user.username)
+    return render(request, 'application/activitylog.html', {'user': request.user.username,
+                                                            'activityList': activityList,
+                                                            'notificationList': notificationList[:6],
+                                                            'i': len(notificationList)})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -188,7 +193,7 @@ def members(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byUsername')[:]
-    return HttpResponse("""WIP""")
+    return render(request, 'application/members.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -198,7 +203,8 @@ def applicationDetail(request, appId):
         try:
             application = DBAPPLICATIONS[appId]
         except Exception:
-            return HttpResponse("""WIP""")
+            return HttpResponse("""<center><h1>Sorry, the application you request has been deleted!</h1>
+                                   <br><h3>Get back to <a href='/dashboard'>Dashboard</a></h3></center>""")
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         DBCOMMENT = client['comments']
@@ -217,7 +223,12 @@ def applicationDetail(request, appId):
             elif faculty == application['nextBy']:
                 break
         notificationList = getNotification(request.user.username)
-        return HttpResponse("""WIP""")
+        return render(request, 'application/applicationDetail.html', {
+            'user': user[0]['value'], 'application': application, 'appId': appId,
+            'commentList': commentList, 'status': status,
+            'notificationList': notificationList[:6],
+            'i': len(notificationList)})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def editProfile(request):
@@ -225,7 +236,10 @@ def editProfile(request):
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         notificationList = getNotification(request.user.username)
-        return HttpResponse("""WIP""")
+        return render(request, 'application/editProfile.html', {
+            'user': user[0]['value'], 'notificationList': notificationList[:6],
+            'i': len(notificationList)})
+
     else:
         # Saving in cloudant
         DBUSER = client['users']
@@ -243,7 +257,7 @@ def editProfile(request):
         DBACTIVITYLOG.create_document({'string': string, 'type': 'editprofile',
                                        'username': request.user.username,
                                        'date': date})
-        return HttpResponse("""WIP""")
+        return redirect('/profile')
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -252,14 +266,17 @@ def profile(request):
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
         notificationList = getNotification(request.user.username)
-        return HttpResponse("""WIP""")
+        return render(request, 'application/profile.html', {
+            'user': user[0]['value'], 'notificationList': notificationList[:6],
+            'i': len(notificationList)})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def faculty(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Faculty'][:]
-    return HttpResponse("""WIP""")
+    return render(request, 'application/faculty.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -267,7 +284,7 @@ def gymkhana(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Gymkhana'][:]
-    return HttpResponse("""WIP""")
+    return render(request, 'application/gymkhana.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -275,7 +292,7 @@ def student(request):
     DBUSER = client['users']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     memberList = DBUSER.get_view_result('_design/fetch', 'byDesignation')['Student'][:]
-    return HttpResponse("""WIP""")
+    return render(request, 'application/student.html', {'user': user[0]['value'], 'memberList': memberList})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -295,11 +312,16 @@ def admindashboard(request):
             studentMem = desigView['Student'][:]
             facultyMem = desigView['Faculty'][:]
         except Exception:
-            return HttpResponse("""WIP""")
+            return HttpResponse("""<h2>Network error!!! Please refresh</h2>""")
         gymkhana = len(gymkhanaMem)
         students = len(studentMem)
         faculty = len(facultyMem)
-        return HttpResponse("""WIP""")
+        return render(
+            request, 'application/admindashboard.html',
+            {'user': user[0]['value'], 'newUserList': userList, 'total': total,
+             'students': students, 'gymkhana': gymkhana, 'faculty': faculty,
+             'designation': json.dumps(['Faculty', 'Admin', 'Gymkhana'])})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def comment(request, appId):
@@ -326,7 +348,7 @@ def comment(request, appId):
             addNotification(text, faculty, "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "comment")
     if DBAPPLICATIONS[appId]['from'] is not request.user.username:
         addNotification(text, DBAPPLICATIONS[appId]['from'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "comment")
-    return HttpResponse("""WIP""")
+    return redirect('/applicationDetail/' + appId)
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -348,7 +370,11 @@ def searchby(request):
             searchlist.append(application)
             i += 1
     notificationList = getNotification(request.user.username)
-    return HttpResponse("""WIP""")
+    return render(request, 'application/search.html', {'user': request.user.username,
+                                                       'searchList': searchlist, 'i': i,
+                                                       'notificationList': notificationList[:6],
+                                                       'ni': len(notificationList)})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def facultyAction(request, appId):
@@ -381,7 +407,7 @@ def facultyAction(request, appId):
             addNotification(text, DBAPPLICATIONS[appId]['from'], "http://applicationrouting.eu-gb.mybluemix.net/applicationDetail/" + appId, "disapprove")
     
     application.save()
-    return HttpResponse("""WIP""")
+    return redirect('/applicationDetail/' + appId)
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -400,21 +426,25 @@ def sentApplications(request):
                 DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
                                                'username': request.user.username,
                                                'date': date})
-        return HttpResponse("""WIP""")
+        return redirect('/sentApplications')
     applicationList = DBAPPLICATIONS.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     for application in applicationList:
         application['class'] = application['id']
         application['id'] = "#" + application['id']
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     notificationList = getNotification(request.user.username)
-    return HttpResponse("""WIP""")
+    return render(request, 'application/sentapplications.html', {'user': user[0]['value'],
+                                                                 'applicationList': applicationList,
+                                                                 'notificationList': notificationList[:6],
+                                                                 'i': len(notificationList)})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def deleteUser(request):
     DBUSERS = client['users']
     user = DBUSERS[request.POST['userId']]
     user.delete()
-    return HttpResponse("""WIP""")
+    return redirect('/admindashboard')
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -435,7 +465,7 @@ def editDesignation(request):
     user.save()
     text = "Admin assigned you designation " + user['designation']
     addNotification(text, user['username'], "http://applicationrouting.eu-gb.mybluemix.net/profile", "designation")
-    return HttpResponse("""WIP""")
+    return redirect(request.POST['next'])
 
 
 def addNotification(text, user, link, typeApp):
@@ -455,7 +485,7 @@ def getNotification(username):
         if val['to'] == username and val['read'] == "false":
             notificationList.append(notification)
     notificationList.reverse()
-    return HttpResponse("""WIP""")
+    return notificationList
 
 
 def read(request, notifyId):
@@ -464,7 +494,7 @@ def read(request, notifyId):
         notification = DBNOTIFICATION[notifyId]
         notification['read'] = 'true'
         notification.save()
-        return HttpResponse("""WIP""")
+        return redirect(notification['link'])
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -476,7 +506,10 @@ def notifications(request):
         if notification['value']['to'] == request.user.username and notification['value']['read'] == "false":
             notificationList.append(notification)
     notificationList.reverse()
-    return HttpResponse("""WIP""")
+    return render(request, 'application/notification.html', {'user': request.user.username,
+                                                             'notificationList': notificationList,
+                                                             'i': len(notificationList)})
+
 
 def pdfPage(request, appId):
     DBAPPLICATIONS = client['applications']
@@ -487,7 +520,8 @@ def pdfPage(request, appId):
     for user in app['facultyList']:
         result = view[user]
         facultyList.append({'fullName': result[0]['value']['fullName'], 'post': result[0]['value']['post']})
-    return HttpResponse("""WIP""")
+    return render(request, 'application/pdf.html', {'application': app, 'facultyList': facultyList})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def moveToTrash(request):
@@ -507,7 +541,7 @@ def moveToTrash(request):
         DBACTIVITYLOG.create_document({'string': string, 'type': 'delete',
                                        'username': request.user.username,
                                        'date': date})
-    return HttpResponse("""WIP""")
+    return redirect('/dashboard')
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -521,7 +555,7 @@ def restore(request):
             continue
         DBAPPLICATIONS.create_document(doc)
         doc.delete()
-    return HttpResponse("""WIP""")
+    return redirect('/trash')
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -533,7 +567,8 @@ def deleteForever(request):
         except Exception:
             continue
         doc.delete()
-    return HttpResponse("""WIP""")
+    return redirect('/trash')
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def trash(request):
@@ -550,9 +585,13 @@ def trash(request):
     # applicationList = [application1, application2, application3]
     user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
     if user[0]['value']['designation'] == 'admin':
-        return HttpResponse("""WIP""")
+        return redirect('/admindashboard')
     notifcationList = getNotification(request.user.username)
-    return HttpResponse("""WIP""")
+    return render(request, 'application/trash.html', {'user': user[0]['value'],
+                                                      'applicationList': applicationList,
+                                                      'notificationList': getNotification(request.user.username)[:6],
+                                                      'i': len(notifcationList)})
+
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
 def downloadPDF(request, appId):
@@ -564,7 +603,7 @@ def downloadPDF(request, appId):
     response["Content-Disposition"] = "attachment; filename=application.pdf"
     # send the generated PDF
     response.write(pdf)
-    return HttpResponse("""WIP""")
+    return response
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -572,7 +611,8 @@ def adminProfile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return HttpResponse("""WIP""")
+        return render(request, 'application/adminProfile.html', {
+            'user': user[0]['value']})
 
 
 @login_required(redirect_field_name='nextPage', login_url='/login')
@@ -580,7 +620,9 @@ def editAdminProfile(request):
     if request.method == "GET":
         DBUSER = client['users']
         user = DBUSER.get_view_result('_design/fetch', 'byUsername')[request.user.username]
-        return HttpResponse("""WIP""")
+        return render(request, 'application/editAdminProfile.html', {
+            'user': user[0]['value']})
+
     else:
         # Saving in cloudant
         DBUSER = client['users']
@@ -592,4 +634,4 @@ def editAdminProfile(request):
         user['gender'] = request.POST['gender']
         user['motto'] = request.POST['motto']
         user.save()
-        return HttpResponse("""WIP""")
+        return redirect('/adminprofile')

@@ -291,9 +291,9 @@
 	<form action="/login" method="get">
 		                            {% csrf_token %}
 
-	<input type="submit" value="Sign In">
+	<input type="submit" style="margin-bottom: 1000px;" value="Sign In">
 	</form>
-	
+
 	</div>
 	</div>
 	</div>
@@ -980,4 +980,3 @@
 
 </body>
 </html>
-
